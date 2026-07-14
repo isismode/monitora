@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0f1d">
+<title>ÍsisMonitora — Inteligência de Mercado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --color-bg-dark:#0a0f1d;
+    --color-bg-dark-2:#0e1526;
+    --color-brand-blue:#0052ff;
+    --color-brand-cyan:#00f0ff;
+    --color-brand-purple:#9d4edd;
+    --color-workspace-bg:#f4f6f8;
+    --color-card-bg:#ffffff;
+    --color-border:#e4e8ee;
+    --color-text-dark:#111827;
+    --color-text-muted:#6b7280;
+    --color-text-light:#f3f5fb;
+    --radius-md:12px;
+    --radius-lg:18px;
+    --shadow-card:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.06);
+    --font-body:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+    --font-mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  body{
+    background:var(--color-workspace-bg);
+    color:var(--color-text-dark);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    background:
+      radial-gradient(1200px 500px at 12% -10%, rgba(0,240,255,.12), transparent 60%),
+      radial-gradient(1000px 600px at 100% 0%, rgba(157,78,221,.20), transparent 55%),
+      linear-gradient(160deg,var(--color-bg-dark) 0%,var(--color-bg-dark-2) 100%);
+    color:var(--color-text-light);
+    padding:22px 32px 64px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:36px 36px;
+    mask-image:radial-gradient(ellipse 80% 70% at 40% 20%,black,transparent 75%);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative; max-width:1080px; margin:0 auto;}
+
+  /* greeting bar */
+  .greeting-bar{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    font-size:13px; color:#9aa4c0; font-weight:500;
+    padding-bottom:34px;
+  }
+  .greeting-bar b{color:var(--color-text-light); font-weight:700;}
+  .greeting-bar .sep{color:#3c4364;}
+
+  .hero-content{text-align:left; max-width:720px; margin-top:26px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    color:#a9b6f5;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.10);
+    padding:7px 14px; border-radius:999px;
+    margin-bottom:22px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%; background:var(--color-brand-cyan); box-shadow:0 0 8px var(--color-brand-cyan);}
+
+  .hero-title{
+    font-size:52px; font-weight:800; letter-spacing:-.02em; line-height:1.05;
+  }
+  .hero-title .accent{
+    background:linear-gradient(90deg,var(--color-brand-cyan),var(--color-brand-purple));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero-subtitle{
+    font-size:19px; font-weight:600; color:#c7cee6; margin-top:10px;
+  }
+  .hero-desc{
+    font-size:15.5px; line-height:1.6; color:#9aa4c0; margin-top:20px; max-width:600px;
+  }
+
+  .hero-cta{
+    display:inline-flex; align-items:center; gap:10px;
+    margin-top:34px;
+    background:linear-gradient(90deg,var(--color-brand-blue),var(--color-brand-purple));
+    color:#fff; font-family:var(--font-body); font-weight:700; font-size:15px;
+    padding:14px 26px; border-radius:12px; border:none; cursor:pointer;
+    text-decoration:none;
+    box-shadow:0 10px 24px -8px rgba(0,82,255,.55);
+    transition:transform .15s, box-shadow .15s;
+  }
+  .hero-cta:hover{transform:translateY(-1px); box-shadow:0 14px 28px -8px rgba(0,82,255,.65);}
+  .hero-cta svg{width:16px;height:16px; flex-shrink:0;}
+
+  /* ===== MAIN / SUMMARY ===== */
+  main{max-width:1080px; margin:0 auto; padding:0 32px 60px;}
+
+  .summary-section{margin-top:-40px; position:relative; z-index:2;}
+  .summary-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+  }
+  .summary-card{
+    background:var(--color-card-bg);
+    border:1px solid var(--color-border);
+    border-radius:var(--radius-lg);
+    padding:20px 22px;
+    box-shadow:0 8px 28px -12px rgba(16,24,40,.18), var(--shadow-card);
+    position:relative;
+    overflow:hidden;
+  }
+  .summary-card::after{
+    content:""; position:absolute; top:0; left:0; width:3px; height:100%;
+    background:linear-gradient(180deg,var(--color-brand-blue),var(--color-brand-purple));
+  }
+  .summary-card .s-label{
+    font-size:12px; color:var(--color-text-muted); font-weight:600;
+    text-transform:uppercase; letter-spacing:.05em;
+  }
+  .summary-card .s-value{
+    font-family:var(--font-mono); font-size:28px; font-weight:700;
+    margin-top:8px; color:var(--color-text-dark);
+  }
+  .summary-card .s-value.small{font-size:16px; font-weight:600; line-height:1.35;}
+  .summary-card .s-hint{font-size:12px; color:var(--color-text-muted); margin-top:6px;}
+
+  /* ===== ABOUT STRIP ===== */
+  .about-strip{
+    margin-top:34px;
+    background:var(--color-card-bg);
+    border:1px solid var(--color-border);
+    border-radius:var(--radius-lg);
+    padding:22px 24px;
+    box-shadow:var(--shadow-card);
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    justify-content:space-between;
+  }
+  .about-strip .text{max-width:640px;}
+  .about-strip .text .tag{
+    font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--color-brand-blue); margin-bottom:6px;
+  }
+  .about-strip .text p{font-size:13.5px; color:var(--color-text-muted); line-height:1.55;}
+  .about-strip a.secondary-cta{
+    flex-shrink:0;
+    display:inline-flex; align-items:center; gap:8px;
+    color:var(--color-brand-blue); font-weight:700; font-size:14px;
+    text-decoration:none; white-space:nowrap;
+  }
+  .about-strip a.secondary-cta svg{width:14px;height:14px;}
+
+  footer.page-footer{
+    max-width:1080px; margin:0 auto; padding:26px 32px 10px;
+    font-size:12px; color:var(--color-text-muted); text-align:center;
+  }
+  footer.page-footer .brand-tag{
+    background:linear-gradient(90deg,var(--color-brand-blue),var(--color-brand-purple));
+    -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:700;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:900px){
+    .summary-grid{grid-template-columns:1fr; gap:10px;}
+    .hero-title{font-size:38px;}
+  }
+  @media (max-width:640px){
+    .hero{padding:18px 18px 56px;}
+    .greeting-bar{font-size:12px; padding-bottom:24px;}
+    .hero-title{font-size:32px;}
+    .hero-subtitle{font-size:16px;}
+    .hero-cta{width:100%; justify-content:center;}
+    main{padding:0 16px 40px;}
+    .about-strip{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="greeting-bar">
+      <span>Olá, <b>Usuário</b></span>
+      <span class="sep">|</span>
+      <span>Blue Bay Salvador</span>
+      <span class="sep">|</span>
+      <span>Inteligência de Mercado</span>
+    </div>
+
+    <div class="hero-content">
+      <div class="eyebrow"><span class="dot"></span> Ecossistema Ísis</div>
+      <h1 class="hero-title">Ísis<span class="accent">Monitora</span></h1>
+      <p class="hero-subtitle">Atualização de preços de mercado</p>
+      <p class="hero-desc">Acompanhe a variação dos preços dos seus produtos nas principais redes varejistas e transforme dados de mercado em decisões comerciais.</p>
+
+      <a class="hero-cta" href="isismonitora.html">
+        Consultar preços
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section class="summary-section">
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="s-label">Produtos monitorados</div>
+        <div class="s-value" id="statProdutos">—</div>
+        <div class="s-hint">Quantidade de produtos acompanhados</div>
+      </div>
+      <div class="summary-card">
+        <div class="s-label">Redes acompanhadas</div>
+        <div class="s-value" id="statRedes">—</div>
+        <div class="s-hint" id="statRedesNomes">Atacadão, Atakarejo, RedeMix, Cesta do Povo, Mercantil, Centro Sul e Novo Mix</div>
+      </div>
+      <div class="summary-card">
+        <div class="s-label">Última atualização</div>
+        <div class="s-value small" id="statAtualizacao">—</div>
+        <div class="s-hint">Data da última coleta de preços</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-strip">
+    <div class="text">
+      <div class="tag">Como funciona</div>
+      <p>Os dados são coletados e mantidos em uma planilha própria e exibidos aqui em tempo real — sem cadastro, sem login e sem banco de dados adicional.</p>
+    </div>
+    <a class="secondary-cta" href="isismonitora.html">
+      Ir para o painel completo
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </section>
+</main>
+
+<footer class="page-footer">
+  <span class="brand-tag">Ísis</span> · sistema de inteligência comercial e organização de dados
+</footer>
+
+<script>
+/* =========================================================================
+   ÍsisMonitora — Homepage
+   Reutiliza a mesma fonte de dados (planilha publicada em CSV) do painel,
+   apenas para exibir os números reais nos cards de resumo.
+   ========================================================================= */
+const CONFIG = {
+  SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2BvujnDc1ar8SIltSZ7VlS05Ztgippb1PMyfVntl1J9TlcifDHg5gQ7-N31gyK0DAhzLkxw-H_6vx/pub?gid=0&single=true&output=csv",
+  REDES: ["Atacadão","Atakarejo","RedeMix","Cesta do Povo","Mercantil","Centro Sul","Novo Mix"]
+};
+
+function parseCSV(text){
+  const rows = [];
+  let row = [], field = "", inQuotes = false;
+  for (let i = 0; i < text.length; i++){
+    const c = text[i], next = text[i+1];
+    if (inQuotes){
+      if (c === '"' && next === '"'){ field += '"'; i++; }
+      else if (c === '"'){ inQuotes = false; }
+      else { field += c; }
+    } else {
+      if (c === '"'){ inQuotes = true; }
+      else if (c === ','){ row.push(field); field = ""; }
+      else if (c === '\n'){ row.push(field); rows.push(row); row = []; field = ""; }
+      else if (c === '\r'){ /* ignore */ }
+      else { field += c; }
+    }
+  }
+  if (field.length || row.length){ row.push(field); rows.push(row); }
+  return rows.filter(r => r.some(cell => cell.trim() !== ""));
+}
+
+function normalizeHeader(h){
+  return h.trim().toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/\s+/g," ");
+}
+
+function rowsToObjects(rows){
+  if (!rows.length) return [];
+  const headers = rows[0].map(normalizeHeader);
+  return rows.slice(1).map(r => {
+    const obj = {};
+    headers.forEach((h, idx) => { obj[h] = (r[idx] ?? "").trim(); });
+    return obj;
+  });
+}
+
+function parseBRDateTime(raw){
+  if (!raw) return null;
+  const match = raw.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})[ T]+(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+  if (!match) return null;
+  const [, d, m, y, hh, mm, ss] = match;
+  const date = new Date(+y, +m - 1, +d, +hh, +mm, ss ? +ss : 0);
+  return isNaN(date.getTime()) ? null : date;
+}
+
+function getLatestSheetTimestamp(data){
+  let latest = null;
+  data.forEach(row => {
+    const parsed = parseBRDateTime(row["ultima consulta"]);
+    if (parsed && (!latest || parsed > latest)) latest = parsed;
+  });
+  return latest;
+}
+
+async function loadSummary(){
+  document.getElementById("statRedes").textContent = CONFIG.REDES.length;
+
+  if (!CONFIG.SHEET_CSV_URL){
+    document.getElementById("statProdutos").textContent = "—";
+    document.getElementById("statAtualizacao").textContent = "—";
+    return;
+  }
+
+  try{
+    const res = await fetch(CONFIG.SHEET_CSV_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const text = await res.text();
+    const data = rowsToObjects(parseCSV(text));
+
+    document.getElementById("statProdutos").textContent = data.length;
+
+    const latest = getLatestSheetTimestamp(data);
+    const displayDate = latest || new Date();
+    document.getElementById("statAtualizacao").textContent = displayDate.toLocaleString("pt-BR", {
+      day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"
+    });
+  } catch(err){
+    console.error("Erro ao carregar resumo da planilha:", err);
+    document.getElementById("statProdutos").textContent = "—";
+    document.getElementById("statAtualizacao").textContent = "—";
+  }
+}
+
+loadSummary();
+</script>
+
+</body>
+</html>
